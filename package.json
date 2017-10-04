@@ -1,0 +1,39 @@
+{
+  "name": "appkit-photos-ext",
+  "version": "0.0.3",
+  "description": "Appkit Photo Gallery Module",
+  "engines": {
+    "appkit": "^1.0.0"
+  },
+  "appkit": {
+    "modules": [
+      {
+        "id": "appkit-photos",
+        "name": "Photo Gallery",
+        "schema": "schema.json",
+        "content": {
+          "edit": {
+            "images": {
+              "name": "Images",
+              "data": "images"
+            }
+          }
+        },
+        "ui": {
+          "pages": {
+            "start": "ui/pages/start.js"
+          },
+          "module": "ui/module.js"
+        }
+      }
+    ],
+    "components": [],
+    "libs": []
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+  }
+}

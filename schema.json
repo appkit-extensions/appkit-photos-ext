@@ -1,0 +1,58 @@
+﻿{
+    "options": {
+        "fields": {
+            "title": {
+                "label": "Title",
+                "description": "Title for this module",
+                "group": "General",
+                "heading": "",
+                "private": "",
+                "type": "String"
+            },
+            "enable-ui-override": {
+                "label": "Enable UI Override",
+                "description": "Override the default UI for this module",
+                "group": "Advanced",
+                "heading": "",
+                "private": "",
+                "type": "YesNo"
+            },
+            "enable-xml-editing": {
+                "label": "Enable XML Editing",
+                "description": "Show XML to allow advanced editing",
+                "group": "Advanced",
+                "heading": "",
+                "private": "",
+                "type": "YesNo"
+            }
+        },
+        "groups": [ "General", "Advanced" ]
+    },
+    "data": {
+        "images": {
+            "child": "image",
+            "name": "Image",
+            "thumb": "full",
+            "title": "title",
+            "fields": [
+                {
+                    "key": "title",
+                    "type": "string",
+                    "format": "single-line",
+                    "caption": "Title",
+                    "minLength": 2,
+                    "maxLength": 200,
+                    "required": false,
+                    "placeholder":  "optional"
+                },
+                {
+                    "key": "full",
+                    "type": "fileref",
+                    "format": "jpg, png, jpeg",
+                    "caption": "Image",
+                    "required": true
+                }
+            ]
+        }
+    }
+}
