@@ -1,8 +1,17 @@
-﻿// main module class
-export default class Main extends Module {
+﻿export default class PhotosModule extends Module {
 
-    moduleWillLoad() {
-		
+    state = {
+        images: []
     }
 
+    moduleWillLoad() {
+    }
+
+    async moduleDataDidUpdate(data) {
+
+        // add data to state
+        this.setState({
+            images: data.images
+        })
+    }
 }

@@ -1,58 +1,54 @@
 export default class ImageGalleryPage extends Component {
 
-    constructor() {
-        super();
-        this.state = {
-            media: [],
-            images: [],
-            zoomed: false,
-            index: 0,
-            width: 0
-        }
+    width = (Layout.window.width - 16) / 3
+    state = {
+        thumbs: [],
+        images: [],
+        zoomed: false,
+        index: 0,
+        refreshing: false
     }
 
-    componentDidMount() {
-
-        let media = Module.data.images.map(img => {
+    moduleDidUpdate(moduleState) {
+        const images = moduleState.images.map(img => {
             return {
-                photo: img.full,
-                caption: img.title
+                url: img.full.path
             }
         });
 
-        let images = Module.data.images.map(img => {
-            return {
-                url: "file://" + img.full
-            }
+        this.setState({
+            images,
+            thumbs: moduleState.images,
+            refreshing: false
         });
-
-        let width = (Dimensions.get("window").width - 16) / 3;
-
-        this.setState({ media, images, width });
     }
 
     render() {
 
-        let thumbs = this.state.media.map((img, i) => {
+        let thumbs = this.state.thumbs.map((img, i) => {
             return (
                 <TouchableOpacity key={i} onPress={() => this.click(i)} style={{ borderWidth: 2, borderColor: 'white' }}>
-                    <Image source={{ uri: img.photo }} style={{ width: this.state.width, height: this.state.width }} />
+                    <Image source={{ uri: img.full.path }} style={{ width: this.width, height: this.width }} />
                 </TouchableOpacity>
             )
         });
 
+        const refresh = Module.canUpdateData ? (
+            <RefreshControl refreshing={this.state.refreshing} onRefresh={() => Module.updateData()} />
+        ) : null
+
         return (
-            <ScrollView style={styles.container}>
+            <ScrollView style={styles.container} refreshControl={refresh}>
                 <View style={styles.thumbView}>
                     {thumbs}
                 </View>
                 <Modal visible={this.state.zoomed} transparent={false} animationType="slide">
-                    <View style={{flex: 1, backgroundColor: '#000'}}>
-                        <ImageViewer 
-                            style={{marginTop:30}}
-                            imageUrls={this.state.images} 
+                    <View style={{ flex: 1, backgroundColor: '#000' }}>
+                        <ImageViewer
+                            style={{ marginTop: 30 }}
+                            imageUrls={this.state.images}
                             index={this.state.index} />
-                        <View style={{position:'absolute',top:(Navbar.height - 25),right:15}}>
+                        <View style={{ position: 'absolute', top: (Navbar.height - 25), right: 15 }}>
                             <TouchableOpacity onPress={() => this.click()}>
                                 <Icon name="close" size={25} subtle></Icon>
                             </TouchableOpacity>
