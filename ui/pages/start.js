@@ -6,10 +6,16 @@ export default class ImageGalleryPage extends Component {
         images: [],
         zoomed: false,
         index: 0,
-        refreshing: false
+        refreshing: true
     }
 
     moduleDidUpdate(moduleState) {
+
+        if (moduleState.err) {
+            Util.showError(moduleState.err.message)
+            return
+        }
+
         const images = moduleState.images.map(img => {
             return {
                 url: img.full.path
@@ -23,6 +29,12 @@ export default class ImageGalleryPage extends Component {
         });
     }
 
+    async refresh() {
+        this.setState({refreshing: true})
+        await Module.updateData()
+        this.setState({refreshing: false})
+    }
+
     render() {
 
         let thumbs = this.state.thumbs.map((img, i) => {
@@ -34,7 +46,7 @@ export default class ImageGalleryPage extends Component {
         });
 
         const refresh = Module.canUpdateData ? (
-            <RefreshControl refreshing={this.state.refreshing} onRefresh={() => Module.updateData()} />
+            <RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.refresh()} />
         ) : null
 
         return (

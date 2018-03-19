@@ -1,17 +1,21 @@
 ﻿export default class PhotosModule extends Module {
 
     state = {
-        images: []
+        images: [],
+        err: null
     }
 
     moduleWillLoad() {
+        if (this.options.get('enable-live-updates', false)) {
+            this.dataUpdateFrequency = 60
+        }
     }
 
-    async moduleDataDidUpdate(data) {
+    moduleDataDidUpdate({ images }, err) {
+        this.setState({ images, err })
+    }
 
-        // add data to state
-        this.setState({
-            images: data.images
-        })
+    async moduleDataWillUpdate() {
+        return this.loadModuleContent(this.options.get('enable-live-updates', false))
     }
 }
