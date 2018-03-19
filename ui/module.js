@@ -15,7 +15,7 @@
         this.setState({ images, err })
     }
 
-    async moduleDataWillUpdate() {
+    moduleDataWillUpdate() {
         return this.loadModuleContent(this.options.get('enable-live-updates', false))
     }
 }
