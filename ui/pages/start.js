@@ -15,10 +15,6 @@ export default class ImageGalleryPage extends Component {
             Util.showError(err.message || err)
         }
 
-        if (!images) {
-            return;
-        }
-
         const sources = images.map(img => {
             return {
                 url: img.full.path

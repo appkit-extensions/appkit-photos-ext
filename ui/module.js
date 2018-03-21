@@ -15,8 +15,8 @@
         }
     }
 
-    moduleDataDidUpdate({ images }, refreshing, err) {
-        this.setState({ images, refreshing, err })
+    moduleDataDidUpdate(data, refreshing, err) {
+        this.setState({ images: data && data.images || [], refreshing, err })
     }
 
     moduleDataWillUpdate(fromCache) {
