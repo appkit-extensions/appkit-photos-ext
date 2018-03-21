@@ -1,6 +1,6 @@
 {
   "name": "appkit-photos-ext",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Appkit Photo Gallery Module",
   "engines": {
     "appkit": "^1.0.0"

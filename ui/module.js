@@ -1,21 +1,25 @@
 ﻿export default class PhotosModule extends Module {
 
+    live = false
+
     state = {
         images: [],
+        refreshing: false,
         err: null
     }
 
     moduleWillLoad() {
-        if (this.options.get('enable-live-updates', false)) {
-            this.dataUpdateFrequency = 60
+        this.live = this.options.get('enable-live-updates', false)
+        if (this.live) {
+            this.dataUpdateFrequency = 60 * 5
         }
     }
 
-    moduleDataDidUpdate({ images }, err) {
-        this.setState({ images, err })
+    moduleDataDidUpdate({ images }, refreshing, err) {
+        this.setState({ images, refreshing, err })
     }
 
-    moduleDataWillUpdate() {
-        return this.loadModuleContent(this.options.get('enable-live-updates', false))
+    moduleDataWillUpdate(fromCache) {
+        return this.loadModuleContent(this.live, fromCache)
     }
 }

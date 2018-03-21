@@ -9,30 +9,27 @@ export default class ImageGalleryPage extends Component {
         refreshing: true
     }
 
-    moduleDidUpdate(moduleState) {
+    moduleDidUpdate({ images, refreshing, err }) {
 
-        if (moduleState.err) {
-            Util.showError(moduleState.err.message)
-            return
+        if (err) {
+            Util.showError(err.message || err)
         }
 
-        const images = moduleState.images.map(img => {
+        if (!images) {
+            return;
+        }
+
+        const sources = images.map(img => {
             return {
                 url: img.full.path
             }
         });
 
         this.setState({
-            images,
-            thumbs: moduleState.images,
-            refreshing: false
+            images: sources,
+            thumbs: images,
+            refreshing
         });
-    }
-
-    async refresh() {
-        this.setState({refreshing: true})
-        await Module.updateData()
-        this.setState({refreshing: false})
     }
 
     render() {
@@ -46,7 +43,7 @@ export default class ImageGalleryPage extends Component {
         });
 
         const refresh = Module.canUpdateData ? (
-            <RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.refresh()} />
+            <RefreshControl refreshing={this.state.refreshing} onRefresh={() => Module.updateData()} />
         ) : null
 
         return (
