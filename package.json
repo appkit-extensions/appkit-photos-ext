@@ -15,7 +15,8 @@
           "edit": {
             "images": {
               "name": "Images",
-              "data": "images"
+              "data": "images",
+              "display": "grid"
             }
           }
         },
